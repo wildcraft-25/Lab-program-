@@ -124,7 +124,7 @@ case 5:deleteend();
 break;
 case 6: deletefront();
 break;
-7: exit(0);
+case 7: exit(0);
 default:printf("InvalidChoice\n");
 }
 }
