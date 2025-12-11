@@ -10,7 +10,8 @@ while(str[m] != '\0')
 if(str[m] == pat[i]) // ...... matching
 {
 i++; m++;
-if(pat[i] == '\0') //.....found occurrences. {
+if(pat[i] == '\0') //.....found occurrences. 
+{
 flag = 1;
 for(k = 0; rep[k] != '\0'; k++, j++)
 ans[j] = rep[k];
