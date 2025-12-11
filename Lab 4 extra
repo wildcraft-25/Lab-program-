@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <math.h>
+
+char stack[20];
+int top = -1;
+
+void push(char item)
+{
+    stack[++top] = item;
+}
+
+char pop()
+{
+    return stack[top--];
+}
+
+int priority(char c)
+{
+    switch(c)
+    {
+        case '^':
+        case '$': return 3;
+        case '*':
+        case '/':
+        case '%': return 2;
+        case '+':
+        case '-': return 1;
+        case '(': return -1;
+        default : return 0;
+    }
+}
+
+void infixtopostfix()
+{
+    char infix[20], postfix[20];
+    int i = 0, j = 0;
+
+    printf("\nEnter infix expression: ");
+    scanf("%s", infix);   // safer than gets()
+
+    for(i = 0; infix[i] != '\0'; i++)
+    {
+        if(isalnum(infix[i]))  // operand
+        {
+            postfix[j++] = infix[i];
+        }
+        else if(infix[i] == '(')
+        {
+            push(infix[i]);
+        }
+        else if(infix[i] == ')')
+        {
+            while(stack[top] != '(')
+                postfix[j++] = pop();
+            pop();  // remove '('
+        }
+        else   // operator
+        {
+            while(top != -1 && priority(infix[i]) <= priority(stack[top]))
+                postfix[j++] = pop();
+            
+            push(infix[i]);
+        }
+    }
+
+    while(top != -1)
+        postfix[j++] = pop();
+
+    postfix[j] = '\0';
+
+    printf("\nPostfix: %s\n", postfix);
+}
+
+int main()
+{
+    infixtopostfix();
+    return 0;
+}
