@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <string.h>
+
+char str[20], pat[20], rep[20], ans[50];
+int i, j, m, k, flag = 0;
+
+void stringmatch()
+{
+    i = m = j = 0;
+
+    while (str[m] != '\0')
+    {
+        if (str[m] == pat[i])   // matching characters
+        {
+            i++;
+            m++;
+
+            // full pattern matched
+            if (pat[i] == '\0')
+            {
+                flag = 1;
+
+                // copy replace string to answer
+                for (k = 0; rep[k] != '\0'; k++, j++)
+                    ans[j] = rep[k];
+
+                i = 0; // reset pattern index
+            }
+        }
+        else
+        {
+            ans[j++] = str[m++];
+            i = 0; // reset pattern match on mismatch
+        }
+    }
+
+    ans[j] = '\0';
+}
+
+int main()
+{
+    printf("\nEnter a main string: ");
+    scanf("%s", str);
+
+    printf("\nEnter a pattern string: ");
+    scanf("%s", pat);
+
+    printf("\nEnter a replace string: ");
+    scanf("%s", rep);
+
+    stringmatch();
+
+    if (flag == 1)
+        printf("\nThe resultant string is: %s\n", ans);
+    else
+        printf("\nPattern string NOT found\n");
+
+    return 0;
+}
