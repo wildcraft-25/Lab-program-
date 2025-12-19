@@ -1,0 +1,163 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *left, *right;
+};
+
+struct node *root = NULL;
+struct node *found;
+
+/* Create / Insert Node */
+struct node *create(struct node *root, int item)
+{
+    if (root == NULL)
+    {
+        root = (struct node *)malloc(sizeof(struct node));
+        root->data = item;
+        root->left = NULL;
+        root->right = NULL;
+    }
+    else if (item < root->data)
+        root->left = create(root->left, item);
+    else if (item > root->data)
+        root->right = create(root->right, item);
+    else
+        printf("Duplicate Element Not Allowed !!!\n");
+
+    return root;
+}
+
+/* Inorder Traversal */
+void inorder(struct node *root)
+{
+    if (root != NULL)
+    {
+        inorder(root->left);
+        printf("%d ", root->data);
+        inorder(root->right);
+    }
+}
+
+/* Preorder Traversal */
+void preorder(struct node *root)
+{
+    if (root != NULL)
+    {
+        printf("%d ", root->data);
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+
+/* Postorder Traversal */
+void postorder(struct node *root)
+{
+    if (root != NULL)
+    {
+        postorder(root->left);
+        postorder(root->right);
+        printf("%d ", root->data);
+    }
+}
+
+/* Search Node */
+struct node *search(struct node *root, int key)
+{
+    if (root == NULL)
+        return NULL;
+
+    if (key < root->data)
+        return search(root->left, key);
+    else if (key > root->data)
+        return search(root->right, key);
+    else
+        return root;
+}
+
+/* Main Function */
+int main()
+{
+    int choice, item, n, i, key;
+
+    while (1)
+    {
+        printf("\n--- Binary Search Tree Operations ---\n");
+        printf("1. Create BST\n");
+        printf("2. Inorder Traversal\n");
+        printf("3. Preorder Traversal\n");
+        printf("4. Postorder Traversal\n");
+        printf("5. Search\n");
+        printf("6. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+        case 1:
+            printf("\nBST for how many nodes? : ");
+            scanf("%d", &n);
+            for (i = 1; i <= n; i++)
+            {
+                printf("Enter data for node %d: ", i);
+                scanf("%d", &item);
+                root = create(root, item);
+            }
+            printf("BST created successfully!\n");
+            break;
+
+        case 2:
+            if (root == NULL)
+                printf("Tree is empty.\n");
+            else
+            {
+                printf("Inorder Traversal: ");
+                inorder(root);
+                printf("\n");
+            }
+            break;
+
+        case 3:
+            if (root == NULL)
+                printf("Tree is empty.\n");
+            else
+            {
+                printf("Preorder Traversal: ");
+                preorder(root);
+                printf("\n");
+            }
+            break;
+
+        case 4:
+            if (root == NULL)
+                printf("Tree is empty.\n");
+            else
+            {
+                printf("Postorder Traversal: ");
+                postorder(root);
+                printf("\n");
+            }
+            break;
+
+        case 5:
+            printf("Enter node to be searched: ");
+            scanf("%d", &key);
+            found = search(root, key);
+
+            if (found == NULL)
+                printf("Search Unsuccessful.\n");
+            else
+                printf("Search Successful. Node found in BST.\n");
+            break;
+
+        case 6:
+            exit(0);
+
+        default:
+            printf("Invalid Option! Try Again.\n");
+        }
+    }
+    return 0;
+}
