@@ -53,13 +53,13 @@ printf(" %d ", root->data);
 }
 struct node *search(struct node* root, int key)
 {
-if(root==NULL) 
+if(root==NULL) /* Element is not found */
 return NULL;
-if(key > root->data) 
+if(key > root->data) /* Search in the right sub tree. */
 return search(root->right,key);
-else if(key < root->data) 
+else if(key < root->data) /* Search in the left sub tree. */
 return search(root->left,key);
-else 
+else /* Element Found */
 return root;
 }
 void main()
